@@ -1,21 +1,33 @@
-# 🚀 ColorOS Notification Fix & Debloat Tool
+# 🚀 Fix Thông Báo Android ROM Nội Địa Trung Quốc
 
 [![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-blue)](https://github.com/)
-[![Devices](https://img.shields.io/badge/Supports-OPPO%20%7C%20OnePlus%20%7C%20Realme-green)](https://github.com/)
-[![ColorOS](https://img.shields.io/badge/ColorOS-14%20%7C%2015%20%7C%2016%20%7C%2017-orange)](https://github.com/)
+[![Support](https://img.shields.io/badge/Support-OPPO%20%7C%20OnePlus%20%7C%20Realme%20%7C%20Xiaomi%20%7C%20Vivo-green)](https://github.com/)
 [![License](https://img.shields.io/badge/License-MIT-purple)](LICENSE)
 
-Bộ công cụ mã nguồn mở **tự động hóa 1-Click** giúp **khắc phục triệt để tình trạng chậm/mất thông báo** (Zalo, Messenger, Telegram, Gmail...) và **dọn sạch ứng dụng rác nội địa Trung Quốc** trên các dòng điện thoại **OPPO, OnePlus, Realme** chạy **ColorOS / OxygenOS / RealmeUI** bản nội địa Trung.
+Bộ công cụ mã nguồn mở **tự động hóa 1-Click** giúp **khắc phục triệt để tình trạng chậm/mất thông báo** (Zalo, Messenger, Telegram, Gmail...) và **dọn sạch ứng dụng rác nội địa Trung Quốc** trên các dòng điện thoại Android xách tay nội địa Trung Quốc (OPPO, OnePlus, Realme, Xiaomi, Vivo...).
+
+---
+
+## 📂 Cấu Trúc Dự Án Theo Từng Hãng
+
+Dự án được phân chia theo từng thư mục chuyên biệt cho từng dòng máy để đảm bảo độ tương thích và an toàn tối đa:
+
+| Thư mục | Dòng máy / Hệ điều hành | Trạng thái |
+| :--- | :--- | :--- |
+| **[`oppo-oneplus-realme/`](oppo-oneplus-realme/)** | OPPO, OnePlus, Realme (ColorOS / OxygenOS / RealmeUI) | 🟢 **Sẵn sàng 100%** (ColorOS 14, 15, 16, 17) |
+| **[`xiaomi-redmi/`](xiaomi-redmi/)** | Xiaomi, Redmi, POCO (HyperOS / MIUI) | 🟡 **Đang phát triển** |
+| **[`vivo-iqoo/`](vivo-iqoo/)** | Vivo, iQOO (OriginOS / FuntouchOS) | 🟡 **Đang phát triển** |
 
 ---
 
 ## ✨ Tính Năng Nổi Bật
 
-* ⚡ **Tự động 100% (Zero Configuration):** Tự động phát hiện, tải và cài đặt bộ công cụ Google ADB chính thức nếu máy tính của bạn chưa có. Không cần cài đặt thủ công phức tạp!
-* 🛑 **Vô hiệu hóa trình diệt ngầm Athena (`com.oplus.athena`):** Triệt tiêu "đao phủ" ngầm chuyên đóng băng và ép dừng (`force-stop`) các ứng dụng quốc tế khi tắt màn hình.
+* ⚡ **Tự động 100% (Zero Configuration):** Tự động phát hiện, tải và cấu hình bộ công cụ Google ADB chính thức nếu máy tính chưa có. Người dùng không cần cài đặt môi trường phức tạp!
+* 🛑 **Vô hiệu hóa trình diệt ngầm chuyên sâu:** 
+  * Với OPPO/OnePlus/Realme: Vô hiệu hóa `com.oplus.athena` (nguyên nhân cốt lõi khiến app bị ép dừng `force-stop`).
 * 🛡️ **Doze Whitelist cho hơn 50+ ứng dụng:** Cấp quyền miễn ngủ đông cho toàn bộ các app liên lạc, ngân hàng, ví điện tử, sàn TMĐT, đặt xe và dịch vụ công phổ biến tại Việt Nam (Zalo, Messenger, Telegram, VNeID, eTax, MB Bank, Techcombank, Grab, Shopee...).
-* 🧹 **Dọn sạch app rác nội địa Trung (Debloat):** Vô hiệu hóa tạp chí màn hình khóa tự nhảy hình nền quảng cáo tiếng Trung, trình duyệt HeyTap, màn hình tin tức bên trái...
-* 🤖 **Tùy chọn thông minh:** Cho phép lựa chọn **giữ lại nguyên vẹn Trợ lý ảo tiếng Trung (Breeno / AI Voice)** nếu người dùng có nhu cầu sử dụng các tính năng AI của ColorOS.
+* 🧹 **Dọn sạch app rác nội địa Trung (Debloat):** Tắt tạp chí màn hình khóa quảng cáo tiếng Trung, trình duyệt nội địa, màn hình tin tức bên trái...
+* 🤖 **Tùy chọn thông minh:** Cho phép lựa chọn **giữ lại nguyên vẹn Trợ lý ảo tiếng Trung (Breeno / AI Voice)** nếu bạn muốn sử dụng các tính năng AI.
 * 🔄 **Hoàn tác an toàn 100%:** Tích hợp sẵn chức năng khôi phục nguyên trạng gốc của máy bất cứ lúc nào chỉ với 1 click.
 
 ---
@@ -37,9 +49,8 @@ Trước khi kết nối với máy tính, bạn cần bật chế độ **Gỡ 
 
 ### Dành cho Windows 🪟
 1. Tải toàn bộ thư mục mã nguồn này về máy tính (hoặc bấm `Code` > `Download ZIP` rồi giải nén).
-2. Nhấp đúp chuột vào tệp: **`run_windows.bat`**.
-3. Nếu máy chưa có ADB, công cụ sẽ tự động tải từ Google trong vài giây.
-4. Chọn phím **`[1]`** để chạy tự động toàn bộ (Fix thông báo + Dọn app rác).
+2. Nhấp đúp chuột vào tệp: **`run_windows.bat`** ở thư mục gốc (hoặc vào thẳng thư mục hãng máy của bạn).
+3. Tool sẽ tự động nhận diện thiết bị và hướng dẫn từng bước trên màn hình.
 
 ### Dành cho macOS / Linux 🍏
 1. Mở cửa sổ **Terminal** tại thư mục dự án.
@@ -48,8 +59,7 @@ Trước khi kết nối với máy tính, bạn cần bật chế độ **Gỡ 
    chmod +x run_mac.sh
    ./run_mac.sh
    ```
-3. Nếu máy chưa có ADB, công cụ sẽ tự động tải về và chạy ngay.
-4. Chọn phím **`[1]`** để chạy tự động toàn bộ.
+3. Chọn hãng điện thoại của bạn và làm theo hướng dẫn trên màn hình.
 
 ---
 
@@ -88,5 +98,10 @@ Cài đặt chỉ bị khôi phục lại khi bạn <b>Cập nhật hệ điều
 
 ---
 
+## 🤝 Đóng Góp Phát Triển (Contributions)
+Nếu bạn có kinh nghiệm tối ưu cho các dòng máy **Xiaomi / HyperOS** hoặc **Vivo / OriginOS**, mọi đóng góp (Pull Request / Issue) từ bạn đều rất đáng trân trọng để hoàn thiện công cụ cho cộng đồng người dùng Android tại Việt Nam!
+
+---
+
 ## 📄 License
-Phát hành theo giấy phép [MIT License](LICENSE). Hoàn toàn miễn phí cho cộng đồng người dùng Android Việt Nam và quốc tế!
+Phát hành theo giấy phép [MIT License](LICENSE). Hoàn toàn miễn phí cho cộng đồng!
