@@ -25,7 +25,7 @@ echo ""
 while true; do
     echo -e "${YELLOW}VUI LÒNG CHỌN HÃNG ĐIỆN THOẠI CỦA BẠN:${NC}"
     echo -e "  ${GREEN}[1] 🟢 OPPO / OnePlus / Realme${NC} (ColorOS / OxygenOS / RealmeUI) ${GREEN}[SẴN SÀNG]${NC}"
-    echo -e "  ${YELLOW}[2] 🟡 Xiaomi / Redmi / POCO${NC} (HyperOS / MIUI) ${YELLOW}[Đang phát triển]${NC}"
+    echo -e "  ${GREEN}[2] 🟢 Xiaomi / Redmi / POCO${NC} (HyperOS / MIUI) ${GREEN}[SẴN SÀNG]${NC}"
     echo -e "  ${YELLOW}[3] 🟡 Vivo / iQOO${NC} (OriginOS / FuntouchOS) ${YELLOW}[Đang phát triển]${NC}"
     echo -e "  ${RED}[0] ❌ Thoát${NC}"
     echo -e "${CYAN}----------------------------------------------------------------------${NC}"
@@ -40,10 +40,11 @@ while true; do
             cd "$SCRIPT_DIR"
             ;;
         2)
-            echo -e "\n${YELLOW}🚧 Module Xiaomi / Redmi (HyperOS / MIUI) đang được hoàn thiện!${NC}"
-            echo -e "Hãy theo dõi cập nhật mới nhất trên GitHub repository.\n"
-            read -p "Nhấn [Enter] để quay lại menu..."
-            clear
+            echo -e "\n${BLUE}▶ Đang khởi động bộ công cụ cho Xiaomi / Redmi / POCO...${NC}\n"
+            cd "$SCRIPT_DIR/xiaomi-redmi"
+            chmod +x run_mac.sh
+            ./run_mac.sh
+            cd "$SCRIPT_DIR"
             ;;
         3)
             echo -e "\n${YELLOW}🚧 Module Vivo / iQOO (OriginOS) đang được hoàn thiện!${NC}"

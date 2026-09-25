@@ -14,7 +14,7 @@ echo ======================================================================
 echo.
 echo VUI LÒNG CHỌN HÃNG ĐIỆN THOẠI CỦA BẠN:
 echo   [1] 🟢 OPPO / OnePlus / Realme (ColorOS / OxygenOS / RealmeUI) [SẴN SÀNG]
-echo   [2] 🟡 Xiaomi / Redmi / POCO (HyperOS / MIUI) [Đang phát triển]
+echo   [2] 🟢 Xiaomi / Redmi / POCO (HyperOS / MIUI) [SẴN SÀNG]
 echo   [3] 🟡 Vivo / iQOO (OriginOS / FuntouchOS) [Đang phát triển]
 echo   [0] ❌ Thoát
 echo ======================================================================
@@ -31,10 +31,10 @@ if "%brand%"=="1" (
 
 if "%brand%"=="2" (
     echo.
-    echo [!] Module Xiaomi / Redmi (HyperOS / MIUI) đang được hoàn thiện!
-    echo Hãy theo dõi các bản cập nhật mới nhất trên GitHub repository.
-    echo.
-    pause
+    echo [*] Đang khởi động bộ công cụ cho Xiaomi / Redmi / POCO...
+    cd /d "%ROOT_DIR%xiaomi-redmi"
+    call run_windows.bat
+    cd /d "%ROOT_DIR%"
     goto :BRAND_MENU
 )
 
