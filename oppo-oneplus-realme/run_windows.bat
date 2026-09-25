@@ -1,252 +1,225 @@
 @echo off
 chcp 65001 >nul
-title ColorOS Notification Fix ^& Debloat Tool (Windows)
+setlocal EnableDelayedExpansion
+title ColorOS Notification Fix Tool (Windows) - Auto Scan
 color 0b
 
 echo ======================================================================
-echo       COLOROS NOTIFICATION FIX ^& DEBLOAT TOOL (WINDOWS)
-echo    Hỗ trợ tối ưu thông báo ^& dọn app rác cho OPPO / OnePlus / Realme
+echo        COLOROS NOTIFICATION FIX TOOL (WINDOWS)
+echo     Fix tre thong bao cho OPPO / OnePlus / Realme noi dia Trung
+echo     Tinh nang: Quet tu dong app tren may + Chon app bang so
+echo     Tac gia: Vu Do (vudovn) - github.com/vudovn
 echo ======================================================================
 echo.
 
-:: 1. KIỂM TRA VÀ TỰ TẢI ADB CHO WINDOWS NẾU CHƯA CÓ
+:: 1. KIỂM TRA VÀ TỰ TẢI ADB
 set "BIN_DIR=%~dp0bin"
 set "ADB_BIN=adb"
 
 where adb >nul 2>nul
 if %errorlevel% equ 0 (
-    echo [✔] Đã tìm thấy ADB trên hệ thống Windows!
+    echo [✔] Da tim thay ADB tren he thong!
     goto :CHECK_DEVICE
 )
 
 if exist "%BIN_DIR%\platform-tools\adb.exe" (
     set "ADB_BIN=%BIN_DIR%\platform-tools\adb.exe"
-    echo [✔] Đã tìm thấy ADB cục bộ trong thư mục bin!
+    echo [✔] Da tim thay ADB cuc bo!
     goto :CHECK_DEVICE
 )
 
-echo [!] Máy tính của bạn chưa có ADB. Đang tự động tải Google Platform-Tools về...
+echo [!] Chua co ADB. Dang tu dong tai Google Platform-Tools ve...
 if not exist "%BIN_DIR%" mkdir "%BIN_DIR%"
-
 set "URL=https://dl.google.com/android/repository/platform-tools-latest-windows.zip"
 set "ZIP_PATH=%BIN_DIR%\platform-tools.zip"
-
-echo [*] Đang tải từ máy chủ Google: %URL%
+echo [*] Dang tai tu: %URL%
 powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (New-Object System.Net.WebClient).DownloadFile('%URL%', '%ZIP_PATH%')"
-
-echo [*] Đang giải nén ADB...
+echo [*] Dang giai nen ADB...
 powershell -Command "Expand-Archive -Path '%ZIP_PATH%' -DestinationPath '%BIN_DIR%' -Force"
 del /f /q "%ZIP_PATH%" >nul 2>nul
-
 set "ADB_BIN=%BIN_DIR%\platform-tools\adb.exe"
-echo [✔] Đã thiết lập xong ADB cho Windows thành công!
+echo [✔] Da thiet lap xong ADB!
 echo.
 
 :: 2. KIỂM TRA THIẾT BỊ
 :CHECK_DEVICE
-echo [*] Đang kiểm tra kết nối điện thoại qua USB...
+echo [*] Dang kiem tra ket noi dien thoai qua USB...
 "%ADB_BIN%" start-server >nul 2>nul
 
 for /f "tokens=1,2" %%A in ('"%ADB_BIN%" devices ^| findstr /v "List" ^| findstr /r "[a-zA-Z0-9]"') do (
-    if "%%B"=="device" (
-        goto :DEVICE_OK
-    )
+    if "%%B"=="device" goto :DEVICE_OK
     if "%%B"=="unauthorized" (
-        echo [!] CẢNH BÁO: Thiết bị chưa được ủy quyền!
-        echo [?] Hãy mở khóa màn hình điện thoại, tích vào 'Luôn cho phép từ máy tính này' rồi bấm OK.
+        echo [!] Thiet bi chua duoc uy quyen! Mo khoa man hinh va bam Cho phep.
         pause
         goto :CHECK_DEVICE
     )
 )
-
-echo [X] Chưa phát hiện điện thoại nào kết nối!
-echo.
-echo [?] Hướng dẫn bật gỡ lỗi USB:
-echo   1. Cắm cáp kết nối điện thoại với máy tính.
-echo   2. Vào Cài đặt ^> Giới thiệu thiết bị ^> Bấm 7 lần vào 'Số bản dựng'.
-echo   3. Vào Cài đặt bổ sung ^> Tùy chọn nhà phát triển ^> Bật 'Gỡ lỗi USB'.
-echo   4. Mở khóa màn hình điện thoại, chọn 'Luôn cho phép từ máy tính này' rồi nhấn OK.
-echo.
+echo [X] Chua phat hien dien thoai nao!
+echo   1. Cam cap ket noi dien thoai voi may tinh.
+echo   2. Bat Go loi USB trong Cai dat ^> Tuy chon nha phat trien.
+echo   3. Chon 'Luon cho phep tu may tinh nay' roi nhan OK.
 pause
 goto :CHECK_DEVICE
 
 :DEVICE_OK
 for /f "delims=" %%I in ('"%ADB_BIN%" shell getprop ro.product.model') do set "DEV_MODEL=%%I"
 for /f "delims=" %%I in ('"%ADB_BIN%" shell getprop ro.build.display.id') do set "DEV_ROM=%%I"
-echo [✔] Đã kết nối thiết bị: %DEV_MODEL% (ROM: %DEV_ROM%)
+echo [✔] Da ket noi: %DEV_MODEL% (ROM: %DEV_ROM%)
 echo.
 
 :: 3. MENU CHÍNH
 :MENU
 cls
 echo ======================================================================
-echo       COLOROS NOTIFICATION FIX ^& DEBLOAT TOOL (WINDOWS)
-echo       Thiết bị: %DEV_MODEL% ^| ROM: %DEV_ROM%
+echo        COLOROS NOTIFICATION FIX TOOL (WINDOWS)
+echo        Thiet bi: %DEV_MODEL% ^| ROM: %DEV_ROM%
 echo ======================================================================
 echo.
-echo VUI LÒNG CHỌN CHỨC NĂNG:
-echo   [1] 🚀 CHẠY TẤT CẢ (Khuyên dùng): Fix thông báo + Dọn app rác (Giữ AI)
-echo   [2] 🔔 Chỉ Fix trễ thông báo (Tắt Athena + Whitelist 50+ app)
-echo   [3] 🧹 Chỉ Dọn app rác nội địa Trung (Tùy chọn giữ/tắt Trợ lý ảo)
-echo   [4] 🔍 Kiểm tra trạng thái thiết bị ^& kết nối Google Push
-echo   [5] 🔄 Khôi phục hệ thống về mặc định (Hoàn tác mọi cài đặt)
-echo   [0] ❌ Thoát
+echo VUI LONG CHON CHUC NANG:
+echo   [1] 🔔 Fix thong bao (Quet app tren may → Chon app can whitelist)
+echo   [2] 🔍 Kiem tra trang thai thiet bi ^& ket noi Google Push
+echo   [3] 🔄 Khoi phuc he thong ve mac dinh
+echo   [0] ❌ Thoat
 echo ======================================================================
-set /p choice="Nhập lựa chọn của bạn [0-5]: "
+set /p choice="Nhap lua chon [0-3]: "
 
-if "%choice%"=="1" goto :ALL_IN_ONE
-if "%choice%"=="2" goto :FIX_NOTI
-if "%choice%"=="3" goto :DEBLOAT
-if "%choice%"=="4" goto :STATUS
-if "%choice%"=="5" goto :RESTORE
+if "%choice%"=="1" goto :FIX_NOTI
+if "%choice%"=="2" goto :STATUS
+if "%choice%"=="3" goto :RESTORE
 if "%choice%"=="0" goto :EXIT
 goto :MENU
 
-:: --------------------------------------------------------------------------
-:ALL_IN_ONE
-call :DO_FIX_NOTI
-call :DO_DEBLOAT 1
-echo.
-echo [🎉] ĐÃ HOÀN TẤT CẢ HAI BƯỚC THÀNH CÔNG!
-pause
-goto :MENU
-
+:: =====================================================================
+:: FIX THÔNG BÁO - QUÉT TỰ ĐỘNG
+:: =====================================================================
 :FIX_NOTI
-call :DO_FIX_NOTI
-pause
-goto :MENU
-
-:DO_FIX_NOTI
 echo.
 echo ======================================================================
-echo            TIẾN HÀNH FIX TRỄ THÔNG BÁO COLOROS
+echo       FIX TRE THONG BAO COLOROS (QUET TU DONG)
 echo ======================================================================
-echo [*] [1/2] Đang tắt trình diệt ngầm hung hãn (com.oplus.athena)...
+
+echo [*] [1/3] Tat trinh diet ngam (com.oplus.athena)...
 "%ADB_BIN%" shell pm disable-user --user 0 com.oplus.athena >nul 2>nul
 "%ADB_BIN%" shell pm disable-user --user 999 com.oplus.athena >nul 2>nul
-echo [✔] Đã tắt com.oplus.athena trên User 0 và User 999.
+echo   [✔] Da tat com.oplus.athena
 
-echo [*] [2/2] Cấp quyền miễn ngủ đông (Doze Whitelist) cho 50+ app phổ biến...
-for %%P in (
-    com.zing.zalo com.facebook.orca com.facebook.katana com.facebook.pages.app
-    org.telegram.messenger com.whatsapp com.whatsapp.w4b com.viber.voip
-    com.instagram.android com.instagram.barcelona com.twitter.android com.discord
-    com.locket.Locket com.ss.android.ugc.trill com.ss.android.ugc.aweme com.tencent.mm
-    jp.naver.line.android com.skype.raider com.microsoft.teams com.Slack com.linkedin.android
-    com.google.android.gm com.microsoft.office.outlook com.android.email
-    com.openai.chatgpt ai.x.grok com.google.android.apps.bard com.anthropic.claude com.github.android
-    com.vnid com.etax.icanhan vss.gov.vssapp com.windyty.android
-    com.grabtaxi.passenger com.gsm.customer com.shopee.vn com.deliverynow com.be.customer
-    com.chotot.vn com.bachhoaxanh com.alibaba.aliexpresshd com.lazada.android vn.tiki.app.tikiandroid
-    com.mbmobile com.vnpay.vpbankonline com.VCB vn.com.techcombank.bb.app com.vnpay.bidv
-    com.vietinbank.ipay mobile.acb.com.vn vn.tpbank.mb com.mservice.momotransfer
-    vn.com.vng.zalopay vn.viettel.viettelpay vn.com.hdsaison.hpo com.paypal.android.p2pmobile com.sepay.trans
-    com.binance.dev com.bybit.app com.okinc.okex.gp io.metamask app.phantom
-    com.google.android.apps.authenticator2 com.azure.authenticator com.valvesoftware.android.steam.community
-    com.google.android.gms com.google.android.gsf com.android.vending com.google.android.apps.maps
-) do (
-    "%ADB_BIN%" shell pm path %%P >nul 2>nul
-    if not errorlevel 1 (
-        "%ADB_BIN%" shell dumpsys deviceidle whitelist +%%P >nul 2>nul
-        echo   [✔] Đã thêm vào Whitelist: %%P
+echo [*] [2/3] Tu dong whitelist dich vu Google (bat buoc)...
+for %%P in (com.google.android.gms com.google.android.gsf com.android.vending) do (
+    "%ADB_BIN%" shell dumpsys deviceidle whitelist +%%P >nul 2>nul
+    echo   [✔] Auto whitelist: %%P
+)
+
+echo [*] [3/3] Quet tat ca ung dung da cai tren may...
+echo [*] Dang quet, vui long cho...
+echo.
+
+set "APP_COUNT=0"
+for /f "tokens=*" %%A in ('"%ADB_BIN%" shell pm list packages -3 -e 2^>nul') do (
+    set "RAW=%%A"
+    set "PKG=!RAW:package:=!"
+    if /i not "!PKG!"=="com.google.android.gms" if /i not "!PKG!"=="com.google.android.gsf" if /i not "!PKG!"=="com.android.vending" (
+        set /a APP_COUNT+=1
+        set "APP_!APP_COUNT!=!PKG!"
+        echo   [!APP_COUNT!] !PKG!
     )
 )
-echo [✔] Đã hoàn tất danh sách Whitelist!
-goto :eof
 
-:: --------------------------------------------------------------------------
-:DEBLOAT
+if %APP_COUNT% equ 0 (
+    echo [!] Khong tim thay app ben thu 3 nao.
+    pause
+    goto :MENU
+)
+
 echo.
-echo Bạn có muốn giữ lại Trợ lý ảo tiếng Trung (Breeno / AI Voice) không?
-echo   [1] CÓ, giữ lại Trợ lý ảo (Khuyên dùng)
-echo   [2] KHÔNG, tắt luôn cả Trợ lý ảo
-set /p ai_opt="Chọn [1 hoặc 2, mặc định 1]: "
-if "%ai_opt%"=="" set "ai_opt=1"
+echo ─────────────────────────────────────────────────────
+echo Tim thay %APP_COUNT% ung dung ben thu 3 tren may.
+echo.
+echo 📌 Huong dan chon:
+echo   • Nhap so cach nhau bang dau phay: 1,3,5,7
+echo   • Nhap "all" hoac nhan Enter de chon TAT CA
+echo.
+set /p "NOTI_SEL=Nhap so app can fix thong bao: "
 
-call :DO_DEBLOAT %ai_opt%
+if "%NOTI_SEL%"=="" set "NOTI_SEL=all"
+
+echo.
+echo [*] Dang them app vao Doze Whitelist...
+
+if /i "%NOTI_SEL%"=="all" (
+    for /L %%i in (1,1,%APP_COUNT%) do (
+        "%ADB_BIN%" shell dumpsys deviceidle whitelist +!APP_%%i! >nul 2>nul
+        echo   [✔] Whitelist: !APP_%%i!
+    )
+) else (
+    for %%N in (%NOTI_SEL%) do (
+        set "IDX=%%N"
+        set "IDX=!IDX: =!"
+        if defined APP_!IDX! (
+            "%ADB_BIN%" shell dumpsys deviceidle whitelist +!APP_%%N! >nul 2>nul
+            echo   [✔] Whitelist: !APP_%%N!
+        )
+    )
+)
+
+echo.
+echo [🎉] DA HOAN TAT FIX THONG BAO!
 pause
 goto :MENU
 
-:DO_DEBLOAT
-echo.
-echo ======================================================================
-echo            TIẾN HÀNH DỌN DẸP APP RÁC NỘI ĐỊA TRUNG
-echo ======================================================================
-for %%P in (
-    com.heytap.pictorial
-    com.heytap.browser
-    com.coloros.assistantscreen
-    com.heytap.quicksearchbox
-    com.oplus.pay
-    com.nearme.instant.platform
-    com.oppo.instant.local.service
-    com.coloros.operationManual
-    com.coloros.karaoke
-) do (
-    "%ADB_BIN%" shell pm path %%P >nul 2>nul
-    if not errorlevel 1 (
-        "%ADB_BIN%" shell pm disable-user --user 0 %%P >nul 2>nul
-        echo   [✔] Đã tắt app rác: %%P
-    )
-)
-
-if "%1"=="2" (
-    "%ADB_BIN%" shell pm disable-user --user 0 com.heytap.speechassist >nul 2>nul
-    "%ADB_BIN%" shell pm disable-user --user 0 com.oplus.ovoicemanager >nul 2>nul
-    echo   [✔] Đã tắt Trợ lý ảo tiếng Trung.
-) else (
-    echo   [✔] Đã giữ nguyên Trợ lý ảo tiếng Trung (Breeno / AI).
-)
-echo [🎉] Đã dọn dẹp app rác hoàn tất!
-goto :eof
-
-:: --------------------------------------------------------------------------
+:: =====================================================================
+:: KIỂM TRA TRẠNG THÁI
+:: =====================================================================
 :STATUS
 echo.
 echo ======================================================================
-echo            KIỂM TRA TRẠNG THÁI THIẾT BỊ
+echo            KIEM TRA TRANG THAI THIET BI
 echo ======================================================================
-echo 1. Trình diệt ngầm com.oplus.athena:
+echo 1. Trinh diet ngam com.oplus.athena:
 "%ADB_BIN%" shell pm list packages -d | findstr /i "com.oplus.athena" >nul 2>nul
 if %errorlevel% equ 0 (
-    echo    [✔] ĐANG TẮT (Tốt - Không bị kill app ngầm)
+    echo    [✔] DANG TAT (Tot - Khong bi kill app ngam)
 ) else (
-    echo    [!] ĐANG BẬT (Có thể làm trễ thông báo)
+    echo    [!] DANG BAT (Co the lam tre thong bao)
 )
 
-echo 2. Cổng kết nối Google Push (FCM):
+echo 2. Ket noi Google Push (FCM):
 for /f "delims=" %%I in ('"%ADB_BIN%" shell dumpsys activity service com.google.android.gms/.gcm.GcmService ^| findstr /i "connected="') do (
+    echo    [✔] %%I
+)
+
+echo 3. Doze Whitelist (user):
+for /f "delims=" %%I in ('"%ADB_BIN%" shell dumpsys deviceidle whitelist ^| findstr "user,"') do (
     echo    [✔] %%I
 )
 echo.
 pause
 goto :MENU
 
-:: --------------------------------------------------------------------------
+:: =====================================================================
+:: KHÔI PHỤC
+:: =====================================================================
 :RESTORE
 echo.
 echo ======================================================================
-echo            KHÔI PHỤC TRẠNG THÁI GỐC CỦA MÁY
+echo            KHOI PHUC TRANG THAI GOC
 echo ======================================================================
-echo [*] Đang bật lại trình Athena...
+echo [*] Bat lai Athena...
 "%ADB_BIN%" shell pm enable com.oplus.athena >nul 2>nul
-"%ADB_BIN%" shell pm enable --user 999 com.oplus.athena >nul 2>nul
+echo   [✔] Da bat lai com.oplus.athena
 
-echo [*] Đang khôi phục lại các ứng dụng hệ thống đã tắt...
-for %%P in (
-    com.heytap.pictorial com.heytap.browser com.coloros.assistantscreen
-    com.heytap.quicksearchbox com.oplus.pay com.nearme.instant.platform
-    com.oppo.instant.local.service com.coloros.operationManual com.coloros.karaoke
-    com.heytap.speechassist com.oplus.ovoicemanager
-) do (
-    "%ADB_BIN%" shell pm enable %%P >nul 2>nul
-    echo   [✔] Đã bật lại: %%P
+echo [*] Xoa toan bo Doze Whitelist (user)...
+for /f "delims=" %%I in ('"%ADB_BIN%" shell dumpsys deviceidle whitelist ^| findstr "user,"') do (
+    set "LINE=%%I"
+    for /f "tokens=2 delims=," %%P in ("!LINE!") do (
+        "%ADB_BIN%" shell dumpsys deviceidle whitelist -%%P >nul 2>nul
+        echo   [✔] Xoa whitelist: %%P
+    )
 )
-echo [🎉] Đã khôi phục cài đặt gốc thành công!
+echo [🎉] Da khoi phuc cai dat goc!
 pause
 goto :MENU
 
 :EXIT
-echo Tạm biệt! Cảm ơn bạn đã sử dụng tool.
+echo Tam biet! Cam on ban da su dung tool.
 timeout /t 2 >nul
 exit /b

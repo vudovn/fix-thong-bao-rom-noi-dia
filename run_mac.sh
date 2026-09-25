@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 # ==============================================================================
-# TOOL FIX THÔNG BÁO & DỌN APP RÁC CHO ĐIỆN THOẠI ROM NỘI ĐỊA TRUNG QUỐC
+# TOOL FIX THÔNG BÁO CHO ĐIỆN THOẠI ROM NỘI ĐỊA TRUNG QUỐC
 # Hỗ trợ: macOS & Linux
+# Tác giả: Vũ Đỗ (vudovn)
+# GitHub: https://github.com/vudovn
 # ==============================================================================
 
 RED='\033[0;31m'
@@ -17,8 +19,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 clear
 echo -e "${CYAN}======================================================================${NC}"
-echo -e "${GREEN}    CÔNG CỤ FIX THÔNG BÁO & DỌN RÁC ANDROID ROM NỘI ĐỊA TRUNG QUỐC   ${NC}"
+echo -e "${GREEN}       CÔNG CỤ FIX THÔNG BÁO ANDROID ROM NỘI ĐỊA TRUNG QUỐC           ${NC}"
 echo -e "${YELLOW}           Dành cho các dòng máy xách tay tại Việt Nam                ${NC}"
+echo -e "${PURPLE}                 Tác giả: Vũ Đỗ (vudovn)                              ${NC}"
 echo -e "${CYAN}======================================================================${NC}"
 echo ""
 

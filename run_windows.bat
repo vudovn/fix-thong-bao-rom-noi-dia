@@ -8,8 +8,9 @@ set "ROOT_DIR=%~dp0"
 :BRAND_MENU
 cls
 echo ======================================================================
-echo    CÔNG CỤ FIX THÔNG BÁO ^& DỌN RÁC ANDROID ROM NỘI ĐỊA TRUNG QUỐC
+echo       CÔNG CỤ FIX THÔNG BÁO ANDROID ROM NỘI ĐỊA TRUNG QUỐC
 echo           Dành cho các dòng máy xách tay tại Việt Nam (Windows)
+echo                 Tác giả: Vũ Đỗ (vudovn)
 echo ======================================================================
 echo.
 echo VUI LÒNG CHỌN HÃNG ĐIỆN THOẠI CỦA BẠN:

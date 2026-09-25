@@ -1,14 +1,19 @@
 # 🟢 Module OPPO / OnePlus / Realme (ColorOS / OxygenOS / RealmeUI)
 
-> ✅ **Trạng thái:** Đã hoàn thiện & Hoạt động ổn định trên ColorOS 14, 15, 16, 17
+> ✅ **Trạng thái:** Đã hoàn thiện & Hoạt động ổn định trên ColorOS 14, 15, 16, 17+  
+> 👨‍💻 **Tác giả:** Vũ Đỗ ([@vudovn](https://github.com/vudovn))
+
+---
 
 ### 🌟 Tính năng chính:
-- **Tắt `com.oplus.athena`:** Vô hiệu hóa trình diệt ngầm hung hãn của ColorOS trên cả User chính (User 0) và Không gian nhân bản (User 999).
-- **Doze Whitelist 50+ ứng dụng:** Nhắn tin, MXH, Ngân hàng, Ví điện tử, Dịch vụ công (VNeID, eTax), Đặt xe, Sàn TMĐT.
-- **Dọn sạch app rác:** Tạp chí màn hình khóa (quảng cáo), Trình duyệt HeyTap, Bảng tin bên trái...
-- **Tùy chọn giữ Trợ lý ảo:** Cho phép giữ lại Breeno / AI Voice tiếng Trung nếu người dùng cần.
-- **Khôi phục dễ dàng:** Hoàn tác mọi cài đặt về mặc định bất cứ lúc nào.
+- **Tắt `com.oplus.athena`:** Vô hiệu hóa trình diệt ngầm hung hãn nhất của ColorOS trên cả User chính (User 0) và Không gian nhân bản (Clone app - User 999).
+- **Tự động quét ứng dụng:** Tự động phát hiện toàn bộ các app cài đặt trên thiết bị, hiển thị tên và đánh số trực quan.
+- **Tùy chọn linh hoạt:** Người dùng tự do chọn từng app muốn đưa vào danh sách chạy nền (ví dụ: `1,3,5` hoặc dải `1-10`) hoặc chọn tất cả (`all`).
+- **Tự động Whitelist Google Services:** Tự động đưa Google Play Services, Google Framework, Play Store vào Doze Whitelist để duy trì kết nối push notification (FCM).
+- **Khôi phục dễ dàng:** Tích hợp tùy chọn hoàn tác bật lại Athena và xóa whitelist chỉ bằng 1 thao tác.
+
+---
 
 ### 💻 Cách chạy:
-* **Windows:** Chạy file `run_windows.bat`.
-* **macOS / Linux:** Chạy `./run_mac.sh`.
+* **Windows:** Nhấp đúp vào file `run_windows.bat`.
+* **macOS / Linux:** Cấp quyền và chạy `./run_mac.sh`.
