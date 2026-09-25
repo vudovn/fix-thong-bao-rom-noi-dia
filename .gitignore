@@ -1,0 +1,9 @@
+# Platform tools and downloaded binaries
+bin/
+.bin/
+platform-tools/
+*.zip
+
+# OS temporary files
+.DS_Store
+Thumbs.db
